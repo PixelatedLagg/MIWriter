@@ -13,12 +13,8 @@ namespace MIWriter
             StringBuilder builder = new($"    \"{Url}\" : {{\n        \"title\" : \"{Title}\",        \"sections\" : [\n");
             foreach (Section section in Sections)
             {
-                builder.Append("            {")
-                foreach (IElement element in Text)
-                {
-                    builder.Append(element.Render());
-                }
-                builder.Append($"\"\n                \"image\" : \"<div class=\\\"image\\\"><img src=\\\"{ImageUrl}\\\" alt=\\\"{ImageAlt}\\\">");
+                builder.Append("            {\n");
+                builder.Append($"                \"text\" : \"{section.Text}\",\n                \"image\" : \"<div class=\\\"image\\\"><img src=\\\"{section.ImageUrl}\\\" alt=\\\"{section.ImageAlt}\\\">");
 
                 return builder.Append("\"\n                \"image\" : \"<div class=\\\"image\\\"><img src=\\\"url\\\" alt=\\\"alt\\\"><p>caption</p></div>\"").ToString();
             }
