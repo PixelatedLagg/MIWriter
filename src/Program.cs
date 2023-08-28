@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace MIWriter
 {
@@ -80,9 +82,8 @@ namespace MIWriter
         }
         private static void OpenFile(string name)
         {
-            string file = File.ReadAllText(name);
-            JsonDocument json = JsonDocument.Parse(file);
-            json.RootElement.
+            JToken article = (from child in JObject.Parse(File.ReadAllText(name)).Children() where child["title"]?.ToString() == name select child).First();
+            
         }
     }
 }

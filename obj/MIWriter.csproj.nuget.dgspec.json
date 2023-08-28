@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Michi\\OneDrive\\Desktop\\MIWriter\\MIWriter.csproj": {}
+    "C:\\Users\\pixil\\Desktop\\MIWriter\\MIWriter.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Michi\\OneDrive\\Desktop\\MIWriter\\MIWriter.csproj": {
+    "C:\\Users\\pixil\\Desktop\\MIWriter\\MIWriter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Michi\\OneDrive\\Desktop\\MIWriter\\MIWriter.csproj",
+        "projectUniqueName": "C:\\Users\\pixil\\Desktop\\MIWriter\\MIWriter.csproj",
         "projectName": "MIWriter",
-        "projectPath": "C:\\Users\\Michi\\OneDrive\\Desktop\\MIWriter\\MIWriter.csproj",
-        "packagesPath": "C:\\Users\\Michi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Michi\\OneDrive\\Desktop\\MIWriter\\obj\\",
+        "projectPath": "C:\\Users\\pixil\\Desktop\\MIWriter\\MIWriter.csproj",
+        "packagesPath": "C:\\Users\\pixil\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pixil\\Desktop\\MIWriter\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Michi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\pixil\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,6 +37,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "newtonsoft.json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -53,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
