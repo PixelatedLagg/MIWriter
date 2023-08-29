@@ -6,6 +6,12 @@ namespace MIWriter
 {
     public class Program
     {
+        private static string[] Options = new string[] {
+            "Help",
+            "Quit",
+            
+        };
+
         public static void Main()
         {
             if (!File.Exists("tempfile.txt"))
