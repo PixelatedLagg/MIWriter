@@ -6,11 +6,6 @@ namespace MIWriter
 {
     public class Program
     {
-        private static string[] Options = new string[] {
-            "Help",
-            "Quit",
-            
-        };
 
         public static void Main()
         {
@@ -31,6 +26,9 @@ namespace MIWriter
                 names.Add(line);
                 Console.WriteLine(line);
             }
+
+
+
             Console.SetCursorPosition(0, Console.CursorTop - names.Count - 1);
             int position = -1;
             int lastPosition;
@@ -57,8 +55,11 @@ namespace MIWriter
                         }
                         break;
                     case ConsoleKey.Enter:
-                        Console.WriteLine("aids!");
-                        //goto somewhere else with file name to load
+                        if (position > -1)
+                        {
+                            OpenFile($"articles/{names[position]}.txt");
+                            Main();
+                        }
                         break;
                     case ConsoleKey.Escape:
                         return;
@@ -88,8 +89,16 @@ namespace MIWriter
         }
         private static void OpenFile(string name)
         {
-            JToken article = (from child in JObject.Parse(File.ReadAllText(name)).Children() where child["title"]?.ToString() == name select child).First();
-            
+            JObject articleJson = JObject.Parse($"{{{File.ReadAllText(name)}}}");
+            /*Article article = new()
+            {
+                Title = name,
+                Url = (articleJson.First ?? "").ToString()
+            };*/
+            foreach (JObject? section in (articleJson.First ?? throw new Exception("null article!")).a)
+            {
+                Console.WriteLine(section?["text"]);
+            }
         }
     }
 }
