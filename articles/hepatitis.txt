@@ -1,4 +1,4 @@
-    "the-basis-of-quadratics": {
+    "hepatitis" : {
         "title" : "The Basis of Quadratics",
         "sections" : [
             {

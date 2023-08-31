@@ -57,7 +57,8 @@ namespace MIWriter
                     case ConsoleKey.Enter:
                         if (position > -1)
                         {
-                            OpenFile($"articles/{names[position]}.txt");
+                            OpenFile(names[position]);
+                            Console.Clear();
                             Main();
                         }
                         break;
@@ -89,15 +90,58 @@ namespace MIWriter
         }
         private static void OpenFile(string name)
         {
-            JObject articleJson = JObject.Parse($"{{{File.ReadAllText(name)}}}");
-            /*Article article = new()
+            JObject articleJson = JObject.Parse($"{{{File.ReadAllText($"articles/{name}.txt")}}}");
+            List<Section> sections = new();
+            foreach (JToken section in articleJson[name]?["sections"] ?? throw new Exception("null article!"))
             {
-                Title = name,
-                Url = (articleJson.First ?? "").ToString()
-            };*/
-            foreach (JObject? section in (articleJson.First ?? throw new Exception("null article!")).a)
+                ParseImage(out Section current, (section["image"] ?? "").ToString());
+                Console.WriteLine($"url: {current.ImageUrl} alt: {current.ImageAlt} caption: {current.ImageCaption}");
+                current.Text = (section["text"] ?? "").ToString();
+                sections.Add(current);
+            }
+            Article article = new()
             {
-                Console.WriteLine(section?["text"]);
+                Title = (articleJson[name]?["title"] ?? "").ToString(),
+                Url = name,
+                Sections = sections
+            };
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("ALT+T for text; ALT+H for header; ALT+M for math; ALT+E for exponent; ALT+N for new section; ALT+S for section info; ALT+I for image; ALT+A for article info");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ReadKey();
+        }
+
+        private static void ParseImage(out Section current, string image)
+        {
+            current = new();
+            for (int i = 0; i < image.Length; i++)
+            {
+                if (image[i] == 'r')
+                {
+                    i += 4;
+                    int start = i;
+                    while (image[i] != ' ')
+                    {
+                        i++;
+                    }
+                    current.ImageUrl = image[start..(i - 1)];
+                    i += 6;
+                    start = i;
+                    while (image[i] != '"')
+                    {
+                        i++;
+                    }
+                    current.ImageAlt = image[start..i];
+                    i += 5;
+                    start = i;
+                    while (i + 10 != image.Length)
+                    {
+                        i++;
+                    }
+                    current.ImageCaption = image[start..i];
+                    return;
+                }
             }
         }
     }
