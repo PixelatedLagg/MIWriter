@@ -9,6 +9,8 @@ namespace MIWriter
 
         public static void Main()
         {
+            ReadLine("aids!");
+            return;
             if (!File.Exists("tempfile.txt"))
             {
                 File.Create("tempfile.txt");
@@ -36,10 +38,6 @@ namespace MIWriter
             {
                 lastPosition = position;
                 ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Modifiers == ConsoleModifiers.Control && key.Key == ConsoleKey.Q)
-                {
-                    //help
-                }
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
@@ -107,9 +105,90 @@ namespace MIWriter
             };
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ALT+T for text; ALT+H for header; ALT+M for math; ALT+E for exponent; ALT+N for new section; ALT+S for section info; ALT+I for image; ALT+A for article info");
+            Console.WriteLine("ALT+T for new text; ALT+H for new header; ALT+M for new math; ALT+E for new exponent; ALT+N for new section; ALT+S for section info; ALT+I for new image; ALT+A for article info");
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ReadKey();
+            ConsoleKeyInfo key = Console.ReadKey();
+            while (key.Key != ConsoleKey.Escape)
+            {
+                if (key.Modifiers == ConsoleModifiers.Alt)
+                {
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.T: //new text
+                            break;
+                        case ConsoleKey.H: //new header
+                            break;
+                        case ConsoleKey.M: //new math
+                            break;
+                        case ConsoleKey.E: //new exponent
+                            break;
+                        case ConsoleKey.N: //new section
+                            break;
+                        case ConsoleKey.S: //section info
+                            break;
+                        case ConsoleKey.I: //new image
+                            break;
+                        case ConsoleKey.A: //article info
+                            break;
+                    }
+                }
+                key = Console.ReadKey();
+            }
+        }
+        static string ReadLine(string Default)
+        {
+            int pos = Console.CursorLeft;
+            Console.Write(Default);
+            ConsoleKeyInfo info;
+            List<char> chars = new();
+            if (!string.IsNullOrEmpty(Default))
+            {
+                chars.AddRange(Default.ToCharArray());
+            }
+            while (true)
+            {
+                info = Console.ReadKey(true);
+                switch (info.Key)
+                {
+                    case ConsoleKey.Backspace:
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        break;
+                    case ConsoleKey.RightArrow:
+                        break;
+                    case ConsoleKey.Enter:
+                        break;
+                    default:
+                        Console.Write(info.KeyChar);
+                        chars.Add(info.KeyChar);
+                        break;
+                }
+                if (info.Key == ConsoleKey.Backspace && Console.CursorLeft > pos)
+                {
+                    chars.RemoveAt(chars.Count - 1);
+                    Console.CursorLeft -= 1;
+                    Console.Write(' ');
+                    Console.CursorLeft -= 1;
+                }
+                else if (info.Key == ConsoleKey.LeftArrow && Console.CursorLeft > pos)
+                {
+                    Console.CursorLeft--;
+                }
+                else if (info.Key == ConsoleKey.RightArrow && Console.CursorLeft < pos + chars.Count)
+                {
+                    Console.CursorLeft++;
+                }
+                else if (info.Key == ConsoleKey.Enter)
+                {
+                    Console.Write(Environment.NewLine);
+                    break;
+                }
+                //Here you need create own checking of symbols
+                Console.Write(info.KeyChar);
+                chars.Add(info.KeyChar);
+            }
+            return new string(chars.ToArray());
         }
 
         private static void ParseImage(out Section current, string image)
