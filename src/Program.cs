@@ -138,7 +138,6 @@ namespace MIWriter
         }
         static string ReadLine(string Default)
         {
-            int pos = Console.CursorLeft;
             Console.Write(Default);
             ConsoleKeyInfo info;
             List<char> chars = new();
@@ -152,43 +151,36 @@ namespace MIWriter
                 switch (info.Key)
                 {
                     case ConsoleKey.Backspace:
+                        if (Console.CursorLeft <= chars.Count - 1 && Console.CursorLeft > 0)
+                        {
+                            chars.RemoveAt(Console.CursorLeft);
+                            //Console.CursorLeft -= 1;
+                            int past = Console.CursorLeft;
+                            Console.Write($"{(chars.ToString() ?? "")[Console.CursorLeft..chars.Count]} ");
+                            Console.CursorLeft = past;
+                        }
                         break;
                     case ConsoleKey.LeftArrow:
+                        if (Console.CursorLeft > 0)
+                        {
+                            Console.CursorLeft--;
+                        }
                         break;
                     case ConsoleKey.RightArrow:
+                        if (Console.CursorLeft < chars.Count)
+                        {
+                            Console.CursorLeft++;
+                        }
                         break;
                     case ConsoleKey.Enter:
-                        break;
+                        Console.Write(Environment.NewLine);
+                        return new string(chars.ToArray());
                     default:
                         Console.Write(info.KeyChar);
                         chars.Add(info.KeyChar);
                         break;
                 }
-                if (info.Key == ConsoleKey.Backspace && Console.CursorLeft > pos)
-                {
-                    chars.RemoveAt(chars.Count - 1);
-                    Console.CursorLeft -= 1;
-                    Console.Write(' ');
-                    Console.CursorLeft -= 1;
-                }
-                else if (info.Key == ConsoleKey.LeftArrow && Console.CursorLeft > pos)
-                {
-                    Console.CursorLeft--;
-                }
-                else if (info.Key == ConsoleKey.RightArrow && Console.CursorLeft < pos + chars.Count)
-                {
-                    Console.CursorLeft++;
-                }
-                else if (info.Key == ConsoleKey.Enter)
-                {
-                    Console.Write(Environment.NewLine);
-                    break;
-                }
-                //Here you need create own checking of symbols
-                Console.Write(info.KeyChar);
-                chars.Add(info.KeyChar);
             }
-            return new string(chars.ToArray());
         }
 
         private static void ParseImage(out Section current, string image)
